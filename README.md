@@ -23,6 +23,8 @@ claude2md は ZIP を以下の構造に展開します:
 
 公式: <https://support.claude.com/en/articles/9450526-how-can-i-export-my-claude-ai-data>
 
+> **注意**: Team / Enterprise プランの組織データエクスポートは **Primary Owner のみ** 実行可能です（一般メンバー・管理者 (Owner 以外) は利用できません）。詳細は [Export your organization's data](https://support.claude.com/en/articles/13346720-export-your-organization-s-data) を参照。個人プラン（Free / Pro / Max）では本人が Settings → Privacy から実行できます。
+
 ## インストール
 
 Go 1.22 以上が必要です。
