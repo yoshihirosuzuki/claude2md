@@ -1,0 +1,69 @@
+{
+  "uuid": "00000000-0000-0000-0000-000000000001",
+  "name": "Sample conversation",
+  "summary": "A short summary used by the expected output tests.",
+  "created_at": "2024-01-01T00:00:00.000000Z",
+  "updated_at": "2024-01-01T00:10:00.000000Z",
+  "chat_messages": [
+    {
+      "uuid": "00000000-0000-0000-0000-00000000m001",
+      "sender": "human",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z",
+      "text": "first question",
+      "content": [
+        {"type": "text", "text": "first question"}
+      ],
+      "attachments": [],
+      "files": [
+        {"file_name": "image.png", "file_uuid": "00000000-0000-0000-0000-00000000f001"}
+      ]
+    },
+    {
+      "uuid": "00000000-0000-0000-0000-00000000m002",
+      "sender": "assistant",
+      "created_at": "2024-01-01T00:01:00Z",
+      "updated_at": "2024-01-01T00:01:00Z",
+      "text": "",
+      "content": [
+        {"type": "thinking", "thinking": "considering how to respond concisely."},
+        {"type": "text", "text": "first answer."},
+        {"type": "tool_use", "id": "tu-1", "name": "example_tool", "input": {"arg": "value"}}
+      ],
+      "attachments": [],
+      "files": []
+    },
+    {
+      "uuid": "00000000-0000-0000-0000-00000000m003",
+      "sender": "human",
+      "created_at": "2024-01-01T00:02:00Z",
+      "updated_at": "2024-01-01T00:02:00Z",
+      "text": "thanks",
+      "content": [
+        {"type": "tool_result", "tool_use_id": "tu-1", "content": [{"type":"text","text":"tool output"}]},
+        {"type": "text", "text": "thanks"}
+      ],
+      "attachments": [
+        {
+          "file_name": "notes.txt",
+          "file_size": 42,
+          "file_type": "txt",
+          "extracted_content": "attachment body line 1.\nattachment body line 2."
+        }
+      ],
+      "files": []
+    },
+    {
+      "uuid": "00000000-0000-0000-0000-00000000m004",
+      "sender": "assistant",
+      "created_at": "2024-01-01T00:03:00Z",
+      "updated_at": "2024-01-01T00:03:00Z",
+      "text": "",
+      "content": [
+        {"type": "text", "text": "you are welcome."}
+      ],
+      "attachments": [],
+      "files": []
+    }
+  ]
+}
