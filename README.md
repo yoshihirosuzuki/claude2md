@@ -29,7 +29,7 @@ Go 1.22 以上が必要です。
 
 ```bash
 # ソースから直接インストール
-go install github.com/yoshihirosuzuki/claude2md@latest
+go install github.com/yoshihirosuzuki/claude2md/cmd/claude2md@latest
 
 # あるいはリポジトリを clone してビルド
 git clone https://github.com/yoshihirosuzuki/claude2md.git
@@ -47,12 +47,12 @@ claude2md path/to/data-export.zip
 
 | フラグ | デフォルト | 説明 |
 |---|---|---|
-| `-o <dir>` | `./out` | 出力ディレクトリ |
-| `--include-thinking` | off | `thinking` ブロックを `<details>` 折りたたみで含める |
-| `--include-tools` | off | `tool_use` / `tool_result` ブロックを `<details>` 折りたたみで含める |
-| `--force` | off | 差分判定を無視して全件再生成 |
+| `-o <dir>` | `out` | 出力ディレクトリ（カレント直下） |
+| `-include-thinking` | off | `thinking` ブロックを `<details>` 折りたたみで含める |
+| `-include-tools` | off | `tool_use` / `tool_result` ブロックを `<details>` 折りたたみで含める |
+| `-force` | off | 差分判定を無視して全件再生成 |
 
-オプションは ZIP パスの前後どちらに置いても動作します。
+オプションは ZIP パスの前後どちらに置いても動作します。ただし ZIP パスが `-` で始まる場合はフラグと誤認されて拒否されるため、`./` を先頭に付けて渡してください。
 
 ## 出力フォーマット
 
@@ -68,7 +68,7 @@ out/
 
 ディレクトリ名の `YYYY-MM` とファイル先頭の `YYYY-MM-DD` は、会話の `created_at`（作成日時）を UTC に揃えて整形した値です。
 
-`<slug>` は会話タイトルから生成（連続する空白・スラッシュ・制御文字を `-` に置換、最大 80 文字）。同一日付・同一 slug が衝突した場合は `-<uuid>` をサフィックス付与。
+`<slug>` は会話タイトルから生成（空白・改行・制御文字、およびファイル名禁止文字 `/\:*?"<>|` を `-` に置換、連続する `-` は 1 個に圧縮、最大 80 文字（rune 単位））。同一日付・同一 slug が衝突した場合は uuid を先頭 8 文字でサフィックス付与し、一意になるまで段階的に延長（8→12→16... 4 文字刻み）。
 
 ### Markdown ファイルの中身
 

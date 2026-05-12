@@ -78,7 +78,9 @@ func Load(dir string) (*File, error) {
 }
 
 // Save は dir 直下に .index.json を atomic write で書き出す。
-// json.NewEncoder でストリーム書き出しすることで、エントリ数に比例した中間バッファを発生させない。
+// json.NewEncoder.Encode は内部 buffer に encode してから writer へ Write するが、
+// json.MarshalIndent と異なり呼び出し元（本関数）に全エントリ分の []byte を返さないため、
+// 本関数のスタックに重ねて保持しなくて済む。
 func (f *File) Save(dir string) error {
 	if f.Version == 0 {
 		f.Version = currentVersion

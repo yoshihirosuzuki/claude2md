@@ -235,12 +235,12 @@ func TestNewProgressBar_ColorEmitsANSI(t *testing.T) {
 
 func TestSuffixSanitize(t *testing.T) {
 	cases := map[string]string{
-		"abc-123":        "abc-123",
-		"../../etc":      "etc",
-		"a/b\\c":         "abc",
-		"":               "",
-		"safe_uuid":      "safeuuid", // underscore は除去
-		"!@#$%^&*()":     "",
+		"abc-123":    "abc-123",
+		"../../etc":  "etc",
+		"a/b\\c":     "abc",
+		"":           "",
+		"safe_uuid":  "safeuuid", // underscore は除去
+		"!@#$%^&*()": "",
 	}
 	for in, want := range cases {
 		got := suffixSanitize(in)
