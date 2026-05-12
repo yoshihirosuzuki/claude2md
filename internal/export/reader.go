@@ -80,4 +80,3 @@ func Walk(zipPath string, visitor Visitor, warnf Warnf, progress ProgressFunc) (
 	}
 	return total, nil
 }
-
