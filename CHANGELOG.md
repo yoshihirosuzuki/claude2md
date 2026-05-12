@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-05-12
-
 ### Added
 
 - Initial public release.
@@ -19,6 +17,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `-include-thinking` / `-include-tools` flags for optional folded `<details>` blocks.
 - Streaming JSON / ZIP reading with byte-based progress bar (TTY: cyan ANSI; non-TTY: plain).
 - Path traversal defense (`isWithin` + `suffixSanitize`) and atomic writes.
-
-[Unreleased]: https://github.com/yoshihirosuzuki/claude2md/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/yoshihirosuzuki/claude2md/releases/tag/v0.1.0
