@@ -1,3 +1,15 @@
+// Command claude2md converts Claude.ai data export ZIPs into per-conversation Markdown files.
+//
+// Each conversation in the export's conversations.json becomes one Markdown file under
+// YYYY-MM/YYYY-MM-DD_<slug>.md, with YAML frontmatter. Re-running with the same ZIP is
+// incremental via a .index.json sidecar in the output directory.
+//
+// Usage:
+//
+//	claude2md [flags] <export.zip>
+//
+// See the README at https://github.com/yoshihirosuzuki/claude2md for flag details
+// and output format.
 package main
 
 import (
