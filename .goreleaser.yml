@@ -1,0 +1,71 @@
+version: 2
+
+project_name: claude2md
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: claude2md
+    main: ./cmd/claude2md
+    binary: claude2md
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+
+archives:
+  - id: default
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else }}{{ .Arch }}{{ end }}
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - LICENSE
+      - README.md
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+snapshot:
+  version_template: '{{ incpatch .Version }}-next'
+
+changelog:
+  use: github
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - 'Merge pull request'
+
+release:
+  draft: false
+  prerelease: auto
+  mode: replace
+  header: |
+    ## claude2md {{ .Tag }}
+
+    Claude.ai データエクスポート ZIP を会話単位の Markdown に変換する CLI のリリースです。
+
+    インストール手順は README を参照してください。
