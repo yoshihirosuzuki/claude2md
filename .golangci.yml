@@ -1,16 +1,26 @@
+version: "2"
+
 run:
   timeout: 5m
   go: "1.22"
 
 linters:
   enable:
+    - misspell
+  exclusions:
+    paths:
+      - bin
+      - out
+      - samples
+      - tmp
+
+formatters:
+  enable:
     - gofmt
     - goimports
-    - misspell
-
-issues:
-  exclude-dirs:
-    - bin
-    - out
-    - samples
-    - tmp
+  exclusions:
+    paths:
+      - bin
+      - out
+      - samples
+      - tmp
