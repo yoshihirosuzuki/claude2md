@@ -1,0 +1,6 @@
+bin/
+out/
+samples/
+tmp/
+.DS_Store
+.claude/settings.local.json

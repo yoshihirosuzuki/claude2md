@@ -1,0 +1,154 @@
+# claude2md
+
+Claude.ai のデータエクスポート ZIP を、会話単位の Markdown ファイル群に変換する CLI です。
+
+## 概要
+
+Claude.ai からダウンロードできるデータエクスポート ZIP は、すべての会話履歴が単一の `conversations.json` に格納されています。そのままでは検索・閲覧・他ツールへの投入が困難です。
+
+claude2md は ZIP を以下の構造に展開します:
+
+- 1 会話 = 1 Markdown ファイル
+- 年月別ディレクトリ (`out/2026-04/2026-04-07_<slug>.md`)
+- YAML frontmatter にメタデータ
+- `.index.json` による差分更新
+
+これにより、grep / ripgrep などの汎用ツール、Markdown ビューワ、ドキュメント生成パイプライン、別 LLM への入力など、用途を限定せず Markdown として扱えます。
+
+## エクスポート ZIP の入手
+
+1. <https://claude.ai/> にログイン
+2. 設定 → Privacy → "Export data" を実行
+3. メールで届く ZIP をダウンロード
+
+公式: <https://support.claude.com/en/articles/9450526-how-can-i-export-my-claude-ai-data>
+
+## インストール
+
+Go 1.22 以上が必要です。
+
+```bash
+# ソースから直接インストール
+go install github.com/yoshihirosuzuki/claude2md@latest
+
+# あるいはリポジトリを clone してビルド
+git clone https://github.com/yoshihirosuzuki/claude2md.git
+cd claude2md
+make build
+```
+
+## 使い方
+
+```bash
+claude2md path/to/data-export.zip
+```
+
+オプション:
+
+| フラグ | デフォルト | 説明 |
+|---|---|---|
+| `-o <dir>` | `./out` | 出力ディレクトリ |
+| `--include-thinking` | off | `thinking` ブロックを `<details>` 折りたたみで含める |
+| `--include-tools` | off | `tool_use` / `tool_result` ブロックを `<details>` 折りたたみで含める |
+| `--force` | off | 差分判定を無視して全件再生成 |
+
+オプションは ZIP パスの前後どちらに置いても動作します。
+
+## 出力フォーマット
+
+### ディレクトリ構造
+
+```
+out/
+├── .index.json
+├── YYYY-MM/
+│   └── YYYY-MM-DD_<slug>.md
+└── ...
+```
+
+ディレクトリ名の `YYYY-MM` とファイル先頭の `YYYY-MM-DD` は、会話の `created_at`（作成日時）を UTC に揃えて整形した値です。
+
+`<slug>` は会話タイトルから生成（連続する空白・スラッシュ・制御文字を `-` に置換、最大 80 文字）。同一日付・同一 slug が衝突した場合は `-<uuid>` をサフィックス付与。
+
+### Markdown ファイルの中身
+
+```markdown
+---
+uuid: <conversation uuid>
+name: <会話タイトル>
+created_at: <RFC3339 タイムスタンプ>
+updated_at: <RFC3339 タイムスタンプ>
+message_count: <数>
+attachments: [<file_name>, ...]   # 会話に含まれる添付ファイル名（あれば）
+files: [<file_name>, ...]         # 会話に含まれる参照ファイル名（あれば）
+---
+
+# <会話タイトル>
+
+## Summary
+
+<Claude.ai が自動生成したサマリ。空なら省略>
+
+## You
+
+<ユーザー発言>
+
+## Claude
+
+<Claude 発言>
+
+...
+```
+
+### ブロックの扱い
+
+| ブロック種別 | デフォルト | 出力先 |
+|---|---|---|
+| `text` | 常に出力 | 段落として |
+| `thinking` | 省略 | `--include-thinking` 時のみ `<details>` 内 |
+| `tool_use` / `tool_result` | 省略 | `--include-tools` 時のみ `<details>` 内 |
+| `attachments[].extracted_content` | 常に出力 | 該当メッセージ末尾の `<details>` 内 |
+
+`<details>` の本文に `</details>` 文字列が含まれる場合は HTML エンティティに変換して、外側の折りたたみ構造が破壊されないようにします。
+
+## 差分更新
+
+出力ディレクトリ直下の `.index.json` で会話 uuid と updated_at を管理し、以下の判定で動作します。
+
+| 入力側の状態 | 動作 |
+|---|---|
+| 未登録 | 新規作成 (`created`) |
+| 登録あり、入力 `updated_at` が新しい | 上書き (`updated`)。slug 変更で path が変わった場合は旧 path を削除 |
+| 登録あり、`updated_at` 同一 | スキップ (`skipped`) |
+| 登録あり、入力 `updated_at` が古い | 警告して既存ファイルを保持 (`warn_older`) |
+
+同じ ZIP を再投入してもほぼ即座に終わります。`--force` で全件再生成。
+
+実行終了時に統計を出力:
+
+```
+Done. created: <N>, updated: <M>, skipped: <K> (<bytes> bytes scanned) in <duration>
+```
+
+## 制限事項
+
+- `projects/*.json` と `memories.json` は出力対象外です
+- エクスポート ZIP には会話 ↔ project の紐付け情報が含まれていないため、所属 project は復元できません
+- `message.files[]`（画像など）は ZIP に実体が含まれないため、frontmatter にファイル名のみ記録します
+
+## Contributing
+
+主要な開発コマンドは `Makefile` にまとめてあります。
+
+```bash
+make build          # bin/claude2md をビルド
+make test           # 全テスト
+make update-expected  # 期待出力ファイル (testdata/expected/*.md) の再生成
+make vet            # go vet
+make fmt            # gofmt -w .
+make clean          # bin を削除
+```
+
+## ライセンス
+
+MIT License。詳細は [LICENSE](LICENSE) を参照。
