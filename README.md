@@ -53,7 +53,7 @@ claude2md は ZIP を以下の構造に展開します:
 
 ### `go install`
 
-Go 1.22 以上が必要です。
+Go 1.25 以上が必要です。
 
 ```bash
 go install github.com/yoshihirosuzuki/claude2md/cmd/claude2md@latest
