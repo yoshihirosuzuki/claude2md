@@ -54,6 +54,13 @@ make update-expected  # internal/render/testdata/expected/*.md を再生成
 
 ## リリース（メンテナ向け）
 
+0. (推奨) ローカルで GoReleaser dry-run を実行して各 OS/arch 向け成果物が問題なく生成されることを事前確認:
+   ```bash
+   goreleaser release --snapshot --clean
+   # 確認: dist/ 配下に *.tar.gz / *.zip / checksums.txt が揃うこと
+   # 後始末: rm -rf dist/   # .gitignore 済み
+   ```
+   GoReleaser のインストール: `brew install goreleaser` (macOS) / 公式: <https://goreleaser.com/install/>
 1. `CHANGELOG.md` の `[Unreleased]` セクションをリリースバージョンに昇格、ISO 8601 日付を追加
 2. `vX.Y.Z` 形式の annotated tag を作成して push:
    ```bash
