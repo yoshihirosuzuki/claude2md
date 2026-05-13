@@ -1,4 +1,4 @@
-.PHONY: build test update-expected vet fmt clean
+.PHONY: build test update-expected vet fmt lint clean
 
 build:
 	go build -o bin/claude2md ./cmd/claude2md
@@ -14,6 +14,9 @@ vet:
 
 fmt:
 	gofmt -w .
+
+lint:
+	golangci-lint run
 
 clean:
 	rm -rf bin
