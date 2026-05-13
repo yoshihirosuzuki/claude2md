@@ -8,7 +8,7 @@ claude2md への貢献を歓迎します。本ドキュメントは開発環境�
 - GNU Make (Windows では別途インストール)
 - [golangci-lint](https://golangci-lint.run/) v2 系
   - macOS: `brew install golangci-lint`
-  - Linux: `curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin`
+  - Linux: `curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.12.2`
   - 公式 install ページ: <https://golangci-lint.run/docs/welcome/install/local/>
   - 注: v2 では `go install` 経由のインストールは公式に「動作保証しない」と明記されているため、バイナリインストールを使ってください。
 
