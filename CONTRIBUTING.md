@@ -4,7 +4,7 @@ claude2md への貢献を歓迎します。本ドキュメントは開発環境�
 
 ## 開発環境
 
-- Go 1.22 以上
+- Go 1.25 以上
 - GNU Make (Windows では別途インストール)
 - [golangci-lint](https://golangci-lint.run/) v2 系
   - macOS: `brew install golangci-lint`
