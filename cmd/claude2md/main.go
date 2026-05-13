@@ -47,7 +47,7 @@ func run() error {
 	includeTools := flag.Bool("include-tools", false, "tool_use / tool_result ブロックを <details> 折りたたみで含める")
 	force := flag.Bool("force", false, "差分判定を無視して全件再生成")
 	flag.Usage = func() {
-		fmt.Fprintf(flag.CommandLine.Output(), "Usage: claude2md <export.zip> [options]\n\nOptions:\n")
+		_, _ = fmt.Fprintf(flag.CommandLine.Output(), "Usage: claude2md <export.zip> [options]\n\nOptions:\n")
 		flag.PrintDefaults()
 	}
 	flag.Parse()
@@ -331,16 +331,16 @@ func writeConversation(absPath string, c *export.Conversation, opt render.Option
 	cleanup := true
 	defer func() {
 		if cleanup {
-			os.Remove(tmpPath)
+			_ = os.Remove(tmpPath)
 		}
 	}()
 	bw := bufio.NewWriter(tmp)
 	if err := render.Render(bw, c, opt); err != nil {
-		tmp.Close()
+		_ = tmp.Close()
 		return err
 	}
 	if err := bw.Flush(); err != nil {
-		tmp.Close()
+		_ = tmp.Close()
 		return err
 	}
 	if err := tmp.Close(); err != nil {

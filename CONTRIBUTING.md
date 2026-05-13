@@ -6,6 +6,11 @@ claude2md への貢献を歓迎します。本ドキュメントは開発環境�
 
 - Go 1.22 以上
 - GNU Make (Windows では別途インストール)
+- [golangci-lint](https://golangci-lint.run/) v2 系
+  - macOS: `brew install golangci-lint`
+  - Linux: `curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $(go env GOPATH)/bin`
+  - 公式 install ページ: <https://golangci-lint.run/docs/welcome/install/local/>
+  - 注: v2 では `go install` 経由のインストールは公式に「動作保証しない」と明記されているため、バイナリインストールを使ってください。
 
 ## 開発フロー
 
@@ -16,6 +21,7 @@ make build            # bin/claude2md をビルド
 make test             # 全テストを実行
 make vet              # go vet
 make fmt              # gofmt -w .
+make lint             # golangci-lint run
 make update-expected  # internal/render/testdata/expected/*.md を再生成
 ```
 
@@ -23,7 +29,7 @@ make update-expected  # internal/render/testdata/expected/*.md を再生成
 
 1. 挙動を変える変更は issue で議題を共有してから着手することを推奨します
 2. `main` から feature branch を切って変更を加える
-3. `make test` / `make vet` / `gofmt -l .` がクリーンであることを確認
+3. `make fmt` / `make vet` / `make lint` / `make test` がクリーンであることを確認
 4. PR を作成し、`PULL_REQUEST_TEMPLATE` のチェックリストを埋める
 5. CI のすべてのチェックがグリーンであること
 6. レビュー後マージ
