@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- LICENSE: remove a spurious "OF" from the warranty clause ("THE USE OF OR
+  OTHER DEALINGS" → "THE USE OR OTHER DEALINGS") so that the file matches
+  the SPDX MIT template. The typo prevented google/licensecheck (which
+  pkg.go.dev uses) from identifying the license, leading to a
+  `License: UNKNOWN` display on the module page. Verified locally with
+  google/licensecheck v0.3.1: coverage rose from 0.00% to 98.82% with
+  `ID="MIT"`.
+
 ## [0.2.0] - 2026-05-13
 
 ### Changed
