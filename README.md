@@ -7,7 +7,22 @@
 
 Claude.ai のデータエクスポート ZIP を、会話単位の Markdown ファイル群に変換する CLI です。
 
-## 概要
+A CLI that converts Claude.ai data export ZIP archives into per-conversation Markdown files.
+
+## Overview / 概要
+
+Claude.ai's data export ZIP places all conversations into a single `conversations.json`, which is hard to search, browse, or feed into other tools. claude2md expands the ZIP into:
+
+- one Markdown file per conversation
+- year-month directory layout (`out/2026-04/2026-04-07_<slug>.md`)
+- YAML frontmatter with metadata
+- incremental updates via a `.index.json` sidecar
+
+This lets you reuse the corpus with generic tools (grep / ripgrep), Markdown viewers, documentation pipelines, or as input to other LLMs.
+
+The rest of this README is in Japanese only.
+
+---
 
 Claude.ai からダウンロードできるデータエクスポート ZIP は、すべての会話履歴が単一の `conversations.json` に格納されています。そのままでは検索・閲覧・他ツールへの投入が困難です。
 
