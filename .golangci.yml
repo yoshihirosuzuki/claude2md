@@ -1,0 +1,45 @@
+version: "2"
+
+run:
+  timeout: 5m
+  go: "1.22"
+
+linters:
+  enable:
+    - misspell
+  settings:
+    errcheck:
+      exclude-functions:
+        - (*archive/zip.ReadCloser).Close
+        - (io.ReadCloser).Close
+  exclusions:
+    paths:
+      - bin
+      - out
+      - samples
+      - tmp
+    rules:
+      # Tests focus on assertion logic; transient I/O errors on tmpfs are
+      # uninteresting and would require defensive boilerplate that obscures intent.
+      - path: _test\.go
+        linters:
+          - errcheck
+      # render/{frontmatter,markdown}.go use an errWriter wrapper: per-call
+      # io.WriteString/fmt.Fprintf errors are intentionally ignored, with the
+      # aggregate error returned via ew.err. Excluding these by file (not by
+      # function) avoids globally silencing io.WriteString/fmt.Fprintf, which
+      # would hide real bugs in other callers (e.g. cmd/claude2md/main.go).
+      - path: internal/render/(frontmatter|markdown)\.go
+        linters:
+          - errcheck
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    paths:
+      - bin
+      - out
+      - samples
+      - tmp

@@ -1,5 +1,10 @@
 # claude2md
 
+[![CI](https://github.com/yoshihirosuzuki/claude2md/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/yoshihirosuzuki/claude2md/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/yoshihirosuzuki/claude2md?sort=semver)](https://github.com/yoshihirosuzuki/claude2md/releases)
+[![License: MIT](https://img.shields.io/github/license/yoshihirosuzuki/claude2md)](LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/yoshihirosuzuki/claude2md)](https://goreportcard.com/report/github.com/yoshihirosuzuki/claude2md)
+
 Claude.ai のデータエクスポート ZIP を、会話単位の Markdown ファイル群に変換する CLI です。
 
 ## 概要
@@ -27,13 +32,21 @@ claude2md は ZIP を以下の構造に展開します:
 
 ## インストール
 
+### バイナリ（推奨）
+
+[Releases](https://github.com/yoshihirosuzuki/claude2md/releases) から OS / アーキテクチャ向けのアーカイブをダウンロードし、展開後 `claude2md`（Windows は `claude2md.exe`）を `PATH` 上のディレクトリに配置してください。
+
+### `go install`
+
 Go 1.22 以上が必要です。
 
 ```bash
-# ソースから直接インストール
 go install github.com/yoshihirosuzuki/claude2md/cmd/claude2md@latest
+```
 
-# あるいはリポジトリを clone してビルド
+### ソースから
+
+```bash
 git clone https://github.com/yoshihirosuzuki/claude2md.git
 cd claude2md
 make build
@@ -150,6 +163,15 @@ make vet            # go vet
 make fmt            # gofmt -w .
 make clean          # bin を削除
 ```
+
+詳細な開発手順、PR フロー、コミット規約は [CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。
+
+## Acknowledgments
+
+本ツールは以下のオープンソースライブラリを利用しています。
+
+- [schollz/progressbar](https://github.com/schollz/progressbar) — 進捗バー表示（MIT License）
+- [golang.org/x/term](https://pkg.go.dev/golang.org/x/term) — 端末判定（BSD-3-Clause License）
 
 ## ライセンス
 

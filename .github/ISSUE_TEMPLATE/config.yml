@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Support
+    url: https://github.com/yoshihirosuzuki/claude2md/blob/main/SUPPORT.md
+    about: その他のサポート情報・問い合わせ窓口
+  - name: Security
+    url: https://github.com/yoshihirosuzuki/claude2md/blob/main/SECURITY.md
+    about: 脆弱性の報告は公開 Issue ではなくプライベートにお願いします
