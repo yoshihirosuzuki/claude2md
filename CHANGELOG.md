@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-05-13
+
 ### Changed
 
 - Bump `golang.org/x/term` from 0.28.0 to 0.43.0 (indirect `golang.org/x/sys` 0.29.0 → 0.44.0).
