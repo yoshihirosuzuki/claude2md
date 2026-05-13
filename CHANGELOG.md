@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump `golang.org/x/term` from 0.28.0 to 0.43.0 (indirect `golang.org/x/sys` 0.29.0 → 0.44.0).
+
+### Removed
+
+- Drop support for Go versions below 1.25 — minimum required Go version is now 1.25 (was 1.22). The bump is forced by `golang.org/x/term` v0.43.0 declaring `go 1.25.0`; Go 1.22 is also out of upstream support since 2025-02-11. Source builds and `go install` now require Go 1.25 or newer; pre-built binaries from GitHub Releases are unaffected.
+
 ## [0.1.0] - 2026-05-13
 
 ### Added
