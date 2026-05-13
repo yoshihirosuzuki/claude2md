@@ -5,3 +5,15 @@ samples/
 tmp/
 .DS_Store
 .claude/settings.local.json
+
+# Secrets / credentials (defensive)
+.env
+.env.local
+*.pem
+*.key
+*.p12
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+credentials.json
