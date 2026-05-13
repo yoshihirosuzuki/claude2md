@@ -19,6 +19,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"strings"
 	"time"
 
@@ -29,6 +30,25 @@ import (
 	"github.com/yoshihirosuzuki/claude2md/internal/timestamp"
 	"golang.org/x/term"
 )
+
+// version is the build-time version string. GoReleaser injects the release
+// tag via `-ldflags "-X main.version=v..."`. For builds without that ldflag
+// (notably `go install`), resolveVersion falls back to the module info
+// embedded by the Go toolchain. Local source builds (working tree) report "dev".
+var version = "dev"
+
+func resolveVersion() string {
+	if version != "dev" && version != "" {
+		return version
+	}
+	if info, ok := debug.ReadBuildInfo(); ok {
+		v := info.Main.Version
+		if v != "" && v != "(devel)" {
+			return v
+		}
+	}
+	return "dev"
+}
 
 func main() {
 	if err := run(); err != nil {
@@ -46,11 +66,16 @@ func run() error {
 	includeThinking := flag.Bool("include-thinking", false, "thinking ブロックを <details> 折りたたみで含める")
 	includeTools := flag.Bool("include-tools", false, "tool_use / tool_result ブロックを <details> 折りたたみで含める")
 	force := flag.Bool("force", false, "差分判定を無視して全件再生成")
+	versionFlag := flag.Bool("version", false, "バージョン情報を表示して終了")
 	flag.Usage = func() {
 		_, _ = fmt.Fprintf(flag.CommandLine.Output(), "Usage: claude2md <export.zip> [options]\n\nOptions:\n")
 		flag.PrintDefaults()
 	}
 	flag.Parse()
+	if *versionFlag {
+		fmt.Println(resolveVersion())
+		return nil
+	}
 	if flag.NArg() < 1 {
 		flag.Usage()
 		return fmt.Errorf("引数 <export.zip> が必要です")
