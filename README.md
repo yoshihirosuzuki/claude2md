@@ -81,6 +81,7 @@ claude2md path/to/data-export.zip
 | `-include-thinking` | off | `thinking` ブロックを `<details>` 折りたたみで含める |
 | `-include-tools` | off | `tool_use` / `tool_result` ブロックを `<details>` 折りたたみで含める |
 | `-force` | off | 差分判定を無視して全件再生成 |
+| `-version` | - | バージョン情報を表示して終了 |
 
 オプションは ZIP パスの前後どちらに置いても動作します。ただし ZIP パスが `-` で始まる場合はフラグと誤認されて拒否されるため、`./` を先頭に付けて渡してください。
 

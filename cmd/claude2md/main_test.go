@@ -249,3 +249,25 @@ func TestSuffixSanitize(t *testing.T) {
 		}
 	}
 }
+
+func TestResolveVersion_LdflagOverride(t *testing.T) {
+	orig := version
+	defer func() { version = orig }()
+	version = "v9.9.9"
+	if got := resolveVersion(); got != "v9.9.9" {
+		t.Errorf("resolveVersion() = %q, want %q", got, "v9.9.9")
+	}
+}
+
+func TestResolveVersion_DevFallbackIsNonEmpty(t *testing.T) {
+	// "dev" のまま resolveVersion を呼ぶと、テストバイナリの build info が
+	// (devel) を返すため fallback で "dev" がそのまま返るか、go install 経由
+	// 実行のような build info があれば実バージョンが返る。いずれにせよ空文字は
+	// 返らないことを担保する。
+	orig := version
+	defer func() { version = orig }()
+	version = "dev"
+	if got := resolveVersion(); got == "" {
+		t.Error("resolveVersion() returned empty string")
+	}
+}
