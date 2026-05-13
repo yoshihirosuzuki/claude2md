@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-05-13
+
+### Added
+
+- `-version` flag prints the version. GoReleaser binaries embed the release
+  tag via `-ldflags -X main.version={{.Tag}}`; `go install` builds recover
+  it from the module info via `runtime/debug`; local source builds report `dev`.
+
 ### Fixed
 
 - LICENSE: remove a spurious "OF" from the warranty clause ("THE USE OF OR
@@ -16,12 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `License: UNKNOWN` display on the module page. Verified locally with
   google/licensecheck v0.3.1: coverage rose from 0.00% to 98.82% with
   `ID="MIT"`.
-
-### Added
-
-- `-version` flag prints the version. GoReleaser binaries embed the release
-  tag via `-ldflags -X main.version={{.Tag}}`; `go install` builds recover
-  it from the module info via `runtime/debug`; local source builds report `dev`.
 
 ## [0.2.0] - 2026-05-13
 
