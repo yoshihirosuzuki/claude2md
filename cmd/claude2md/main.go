@@ -1,3 +1,15 @@
+// Command claude2md converts Claude.ai data export ZIPs into per-conversation Markdown files.
+//
+// Each conversation in the export's conversations.json becomes one Markdown file under
+// YYYY-MM/YYYY-MM-DD_<slug>.md, with YAML frontmatter. Re-running with the same ZIP is
+// incremental via a .index.json sidecar in the output directory.
+//
+// Usage:
+//
+//	claude2md [flags] <export.zip>
+//
+// See the README at https://github.com/yoshihirosuzuki/claude2md for flag details
+// and output format.
 package main
 
 import (
@@ -35,7 +47,7 @@ func run() error {
 	includeTools := flag.Bool("include-tools", false, "tool_use / tool_result ブロックを <details> 折りたたみで含める")
 	force := flag.Bool("force", false, "差分判定を無視して全件再生成")
 	flag.Usage = func() {
-		fmt.Fprintf(flag.CommandLine.Output(), "Usage: claude2md <export.zip> [options]\n\nOptions:\n")
+		_, _ = fmt.Fprintf(flag.CommandLine.Output(), "Usage: claude2md <export.zip> [options]\n\nOptions:\n")
 		flag.PrintDefaults()
 	}
 	flag.Parse()
@@ -319,16 +331,16 @@ func writeConversation(absPath string, c *export.Conversation, opt render.Option
 	cleanup := true
 	defer func() {
 		if cleanup {
-			os.Remove(tmpPath)
+			_ = os.Remove(tmpPath)
 		}
 	}()
 	bw := bufio.NewWriter(tmp)
 	if err := render.Render(bw, c, opt); err != nil {
-		tmp.Close()
+		_ = tmp.Close()
 		return err
 	}
 	if err := bw.Flush(); err != nil {
-		tmp.Close()
+		_ = tmp.Close()
 		return err
 	}
 	if err := tmp.Close(); err != nil {
