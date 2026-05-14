@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math"
 	"strings"
 
 	"github.com/yoshihirosuzuki/claude2md/internal/export"
@@ -228,7 +229,14 @@ func (d *detailsBodyWriter) Write(p []byte) (int, error) {
 	}
 	// pending と p を独立した buf に連結し、別途 out バッファを用意して
 	// underlying array の共有による上書きを防ぐ。
-	buf := make([]byte, 0, len(d.pending)+len(p))
+	// d.pending は closeTag 部分一致を保留する用途で 9 bytes 上限。
+	// 加算は uint64 で行い、MaxInt 超過のみ defensive に弾く (実走時に到達することは無い、
+	// CodeQL の allocation-size-overflow false positive 抑制も兼ねる)。
+	n := uint64(len(d.pending)) + uint64(len(p))
+	if n > uint64(math.MaxInt) {
+		return 0, fmt.Errorf("details body chunk too large: %d bytes", n)
+	}
+	buf := make([]byte, 0, int(n))
 	buf = append(buf, d.pending...)
 	buf = append(buf, p...)
 	d.pending = nil

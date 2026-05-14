@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `internal/render`: add an overflow guard on the chunk buffer
+  allocation in `detailsBodyWriter.Write` to satisfy CodeQL's
+  `go/allocation-size-overflow` query. Defensive — the bound is
+  unreachable in practice (`d.pending` is at most 9 bytes by
+  construction, derived from the `</details>` partial-match buffer).
+
 ## [0.3.0] - 2026-05-13
 
 ### Added
