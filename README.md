@@ -20,6 +20,30 @@ Claude.ai's data export ZIP places all conversations into a single `conversation
 
 This lets you reuse the corpus with generic tools (grep / ripgrep), Markdown viewers, documentation pipelines, or as input to other LLMs.
 
+### Install
+
+Pre-built binaries (recommended): see [Releases](https://github.com/yoshihirosuzuki/claude2md/releases) and place the extracted `claude2md` (or `claude2md.exe` on Windows) on your `PATH`.
+
+`go install` (Go 1.25 or newer):
+
+```bash
+go install github.com/yoshihirosuzuki/claude2md/cmd/claude2md@latest
+```
+
+### Usage
+
+```bash
+claude2md path/to/data-export.zip
+```
+
+| Flag | Default | Description |
+|---|---|---|
+| `-o <dir>` | `out` | Output directory (under cwd) |
+| `-include-thinking` | off | Include `thinking` blocks in folded `<details>` |
+| `-include-tools` | off | Include `tool_use` / `tool_result` blocks in folded `<details>` |
+| `-force` | off | Regenerate everything, ignoring the incremental index |
+| `-version` | — | Print version and exit |
+
 The rest of this README is in Japanese only.
 
 ---
