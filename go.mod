@@ -3,7 +3,7 @@ module github.com/yoshihirosuzuki/claude2md
 go 1.25.0
 
 require (
-	github.com/schollz/progressbar/v3 v3.19.0
+	github.com/schollz/progressbar/v3 v3.19.1
 	golang.org/x/term v0.44.0
 )
 
