@@ -24,7 +24,7 @@ This lets you reuse the corpus with generic tools (grep / ripgrep), Markdown vie
 
 Pre-built binaries (recommended): see [Releases](https://github.com/yoshihirosuzuki/claude2md/releases) and place the extracted `claude2md` (or `claude2md.exe` on Windows) on your `PATH`.
 
-`go install` (Go 1.25 or newer):
+`go install` (Go 1.26 or newer):
 
 ```bash
 go install github.com/yoshihirosuzuki/claude2md/cmd/claude2md@latest
@@ -77,7 +77,7 @@ claude2md は ZIP を以下の構造に展開します:
 
 ### `go install`
 
-Go 1.25 以上が必要です。
+Go 1.26 以上が必要です。
 
 ```bash
 go install github.com/yoshihirosuzuki/claude2md/cmd/claude2md@latest
