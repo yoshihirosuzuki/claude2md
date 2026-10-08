@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump `golang.org/x/term` from 0.45.0 to 0.46.0 (indirect `golang.org/x/sys` 0.47.0 → 0.48.0).
+
+### Removed
+
+- Drop support for Go versions below 1.26 — minimum required Go version is now 1.26 (was 1.25). The bump is forced by `golang.org/x/term` v0.46.0 declaring `go 1.26.0`; Go 1.25 is also out of upstream support since the Go 1.27 release on 2026-08-19. Source builds and `go install` now require Go 1.26 or newer; pre-built binaries from GitHub Releases are unaffected.
+
 ### Fixed
 
 - `internal/render`: add an overflow guard on the chunk buffer
